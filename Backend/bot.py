@@ -25,8 +25,8 @@ GENRE_2 = range(1)
 def start(update: Update, _: CallbackContext) -> int:
     ''' Starts the conversation by introducing itself '''
     update.message.reply_text(
-        "Hi there! Welcome onboard. My name is Just Watch Botter & I am excited to have you here with us. "
-        "To get started, please select your choice of command to active the bot!"
+        "Hi there! Welcome to JustWatch!"
+        "Please select your choice of command to kickstart this process :)"
     )
 
 def random(update: Update, _: CallbackContext) -> int:
@@ -39,7 +39,7 @@ def genre(update: Update, _: CallbackContext) -> int:
     ''' Asks User to select a specific Genre'''
     user = update.message.from_user
     update.message.reply_text(
-        "From which Genre would you like to watch a movie?"
+        "Which movie genre would you like to watch?"
     )
     return GENRE_2
 
@@ -56,9 +56,12 @@ def genre_2(update: Update, _: CallbackContext) -> int:
 
 def recommend(update: Update, _: CallbackContext) -> int:
     ''' Starts the recommendation thread '''
+    reply_keyboard = [['Yes', 'No']]
     update.message.reply_text(
-        "To recommend you the perfect movie, I would need you to answer few questions for me. "
-        "So, let's get started. Type 'JustWatch' to begin!"
+        "To recommend you the perfect movie, I would need you to answer few questions. "
+        #"So, let's get started. Type 'JustWatch' to begin!"
+        "Shall we begin?",
+        reply_markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True),
     ) 
     return COMPANY
 
@@ -104,8 +107,6 @@ def mood(update: Update, _: CallbackContext) -> int:
     )
 
     return FINAL
-    
-    # return ConversationHandler.END
 
 def final(update: Update, _: CallbackContext) -> int:
     ''' recommends movie to the User '''
