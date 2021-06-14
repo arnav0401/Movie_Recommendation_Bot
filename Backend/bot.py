@@ -8,9 +8,17 @@ from telegram.ext import (
     ConversationHandler,
     CallbackContext,
 )
+
+from dbhelper import DBHelper
+db = DBHelper()
+
 from model import recommend_movie
 from model import random_recommendation
 from model import genre_recommendation
+
+import os
+PORT = int(os.environ.get('PORT', 5000))
+TOKEN = "1869428334:AAEzLpVLdWVLjqxG3Z9T_bZXiY3MCDlEuh0"
 
 # Enable logging
 logging.basicConfig(
@@ -24,10 +32,16 @@ GENRE_2 = range(1)
 
 def start(update: Update, _: CallbackContext) -> int:
     ''' Starts the conversation by introducing itself '''
-    update.message.reply_text(
-        "Hi there! Welcome to JustWatch!"
-        "Please select your choice of command to kickstart this process :)"
-    )
+    username = update.sendMessage(update.message.chat_id, str(update.message.from_user.username))
+    if db.check_user(username):
+        update.message.reply_text(
+            "Hi there! Welcome back to JustWatch!"
+            "Please select your choice of command to kickstart this process :)"
+        )
+    else:
+        update.message.reply_text(
+            "Hello! This seems like your first time here. Press /help to learn how this bot works!"
+        )
 
 def random(update: Update, _: CallbackContext) -> int:
     ''' Recommends a completely random movie '''
@@ -107,6 +121,8 @@ def mood(update: Update, _: CallbackContext) -> int:
     )
 
     return FINAL
+    
+    # return ConversationHandler.END
 
 def final(update: Update, _: CallbackContext) -> int:
     ''' recommends movie to the User '''
@@ -163,7 +179,7 @@ def cancel(update: Update, _: CallbackContext) -> int:
 
 def main() -> None:
     ''' Run the bot '''
-    updater = Updater("1824372052:AAGUSF-9ZSqC6bYAlEeiLqhMAz3LbwhHKBE")
+    updater = Updater(TOKEN)
     dispatcher = updater.dispatcher
     dispatcher.add_handler(CommandHandler("start", start))
     dispatcher.add_handler(CommandHandler("random", random))
@@ -197,6 +213,7 @@ def main() -> None:
     # Start the Bot
     updater.start_polling()
     updater.idle()
+
 
 if __name__ == '__main__':
     main()
