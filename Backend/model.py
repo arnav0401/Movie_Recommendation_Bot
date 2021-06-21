@@ -277,50 +277,43 @@ def recommend_movie(mood):
     selector = random.randint(0, 13)
 
     if mood == "Lonely":
-        try: 
-            title = (list_of_family[selector] or list_of_thriller[selector])
-            return process(title)
+        try:
+            return genre_recommendation('family') or genre_recommendation('thriller')
         except: 
             title = random.choice(list_of_family) or random.choice(list_of_thriller)
-            #print(title)
             return title
 
     elif mood == "Depressed":
         try: 
-            title = (list_of_comedy[selector] or list_of_animation[selector])
-            return process(title)
+            return genre_recommendation('comedy') or genre_recommendation('animation')
         except: 
             title = random.choice(list_of_comedy) or random.choice(list_of_animation)
-            #print(title)
             return title
 
     elif mood == "Cheerful":
         try:
-            title = (list_of_animation[selector] or list_of_thriller[selector])
-            return process(title)
+            return genre_recommendation('animation') or genre_recommendation('thriller')
         except: 
             title = random.choice(list_of_animation) or random.choice(list_of_thriller)
-            #print(title)
             return title
 
     elif mood == "Excited":
         try:
-            title = (list_of_science_fiction[selector] or list_of_romance[selector])
-            return process(title)
+            return genre_recommendation('romance') or genre_recommendation('Science Fiction')
         except: 
             title = random.choice(list_of_science_fiction) or random.choice(list_of_romance)
-            #print(title)
             return title
 
     elif mood == "Stressed":
         try:
-            title = (list_of_romance[selector] or list_of_family[selector])
-            return process(title)
+            return genre_recommendation('romance') or genre_recommendation('family')
         except: 
             title = random.choice(list_of_romance) or random.choice(list_of_family)
-            #print(title)
             return title
 
+def recommend_movie_backend(movie):
+    title = movie
+    return process(title)
 
 def process(title):        
     userId = random.randrange(0, 100)
@@ -349,8 +342,3 @@ def genre_recommendation(genre):
     selector = random.randint(1, 250)
     df = gen_md[gen_md['genre'] == genre]    
     return qualified['title'].iloc[selector]
-
-# (Q1) Please select a mood that best describes your current state from the list below?
-# Excited, Lonely, Depressed, Cheerful, Stressed
-#recommend_movie('Lonely')
-
