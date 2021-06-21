@@ -61,3 +61,4 @@ Our final model is built as an ensemble of these 3 algorithms combined.
   - Python with relevant libraries
   - Machine Learning & Natural Language Processing
   - Tableau 
+  - Fauna (NoSQL Transactional Database)
